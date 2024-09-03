@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Balance from './components/Balance';
+import TransactionForm from './components/Form';
+import ExpensePieChart from './components/Chart';
+import TransactionList from './components/Transactions';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [transactions, setTransactions] = useState([]);
+
+  const addTransaction = (transaction) => {
+    setTransactions([...transactions, transaction]);
+  };
+
+  const balance = transactions.reduce((acc, transaction) => acc + transaction.amount, 0);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <Balance balance={balance} />
+      <TransactionForm addTransaction={addTransaction} />
+      <ExpensePieChart transactions={transactions} />
+      <TransactionList transactions={transactions} />
     </div>
   );
-}
+};
 
 export default App;
